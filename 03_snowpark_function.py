@@ -49,16 +49,16 @@ if __name__ == "__main__":
     session = get_snowpark_session()
 
     # Register the UDF
-    # print("Registering UDF, eb.get_email_domain")
-    # session.udf.register(
-    #     func=get_email_domain,
-    #     name="eb.get_email_domain",
-    #     session=session,
-    #     replace=True,
-    #     is_permanent=True,
-    #     stage_location="@DEV_UTIL.STAGES.S3_EXPORT_DATA",
-    # )
-    # print("Registered succesfully!")
+    print("Registering UDF, eb.get_email_domain")
+    session.udf.register(
+        func=get_email_domain,
+        name="eb.get_email_domain",
+        session=session,
+        replace=True,
+        is_permanent=True,
+        stage_location="@DEV_UTIL.STAGES.S3_EXPORT_DATA",
+    )
+    print("Registered succesfully!")
 
-    # invoke_udf_with_sql()
+    invoke_udf_with_sql()
     invoke_udf_with_snowpark_client()
