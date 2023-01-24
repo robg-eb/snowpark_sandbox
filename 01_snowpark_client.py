@@ -5,22 +5,20 @@ from snowflake.snowpark.types import Variant
 
 
 def create_order_agg_table(session: Session) -> Variant:
-    # Run a SQL query that aggregates table by Year
-    orders = session.table("eb.orders")
-    grouped = (
-        orders.group_by(year("CREATED"))
+    # Create a table with orders by year
+    print("Running table creation..")
+    (
+        session.table("eb.orders")
+        .group_by(year("CREATED"))
         .agg(sum("GROSS_USD"))
-        .with_column_renamed('"YEAR(CREATED)"', "YEAR")
+        .with_column_renamed('"YEAR(CREATED)"', "ORDER_YEAR")
         .with_column_renamed('"SUM(GROSS_USD)"', "TOTAL_SALES")
-        .sort("YEAR")
+        .write.mode("overwrite")
+        .save_as_table("eb.orders_by_year")
     )
-    print("First 20 rows of output are:")
-    grouped.show(20)
-    print(f"Query is {grouped.queries}")
-
-    # Save results of SQL query into another Snowflake table
-    grouped.write.mode("overwrite").save_as_table("eb.orders_by_year")
     print("Wrote to table eb.orders_by_year")
+
+    session.table("eb.orders_by_year").sort("ORDER_YEAR").show(30)
 
     return {"status": "success"}
 
