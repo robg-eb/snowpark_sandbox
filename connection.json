@@ -1,0 +1,8 @@
+{
+  "account"    : "eventbrite.us-east-1",
+  "user"       : "robg@eventbrite.com",
+  "role"       : "DEV-ROBG-SYSADMIN",
+  "warehouse"  : "DEV_SMALL",
+  "database"   : "DEV_SOURCE_ROBG",
+  "private_key_path" : "/Users/robg/.ssh/snowflake_rsa_key.p8"
+}
