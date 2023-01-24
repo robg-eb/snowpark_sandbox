@@ -21,6 +21,14 @@ def create_order_agg_table(session: Session) -> Variant:
 if __name__ == "__main__":
     session = get_snowpark_session()
     print("Running table creation..")
-    create_order_agg_table(session)
+    session.sproc.register(
+        func=create_order_agg_table,
+        name="eb.create_order_agg_table",
+        is_permanent=True,
+        replace=True,
+        packages=["snowflake-snowpark-python"],
+        stage_location="@DEV_UTIL.STAGES.S3_EXPORT_DATA",
+    )
+    print(session.call("eb.create_order_agg_table"))
     print("Wrote to table eb.orders_by_year")
     session.table("eb.orders_by_year").sort("ORDER_YEAR").show(30)
