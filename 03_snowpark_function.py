@@ -32,7 +32,7 @@ def invoke_udf_with_sql():
 
 
 def invoke_udf_with_snowpark_client():
-    # Call it via Dataframe API
+    print("Calling UDF via Snowpark Dataframe API to get Top 10 email domains")
     result = (
         session.table("eb.orders")
         .with_column("email_domain", call_udf("eb.get_email_domain", col("email")))
